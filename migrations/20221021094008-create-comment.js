@@ -10,10 +10,22 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       UserId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references:{
+          model:"Users",
+          key:"id"
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE"
       },
       PhotoId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references:{
+          model:"Photos",
+          key:"id"
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE"
       },
       comment: {
         type: Sequelize.TEXT
