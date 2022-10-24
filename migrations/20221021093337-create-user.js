@@ -11,7 +11,6 @@ module.exports = {
       },
       full_name: {
         type: Sequelize.STRING,
-        unique: true,
       },
       email: {
         type: Sequelize.STRING,
@@ -20,25 +19,20 @@ module.exports = {
       username: {
         type: Sequelize.STRING,
         unique: true
-
       },
       password: {
         type: Sequelize.STRING,
-        unique: true
       },
       profile_image_url: {
         type: Sequelize.STRING,
-        unique: true
       },
       age: {
-        allowNull: false,
         type: Sequelize.INTEGER,
       },
       phone_number: {
         type: Sequelize.INTEGER
       },
       createdAt: {
-        allowNull: false,
         type: Sequelize.DATE
       },
       updatedAt: {

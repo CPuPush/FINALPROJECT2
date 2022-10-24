@@ -16,8 +16,14 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   SocialMedia.init({
-    name: DataTypes.STRING,
-    social_media_url: DataTypes.STRING,
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    social_media_url: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     UserId: DataTypes.INTEGER
   }, {
     sequelize,
