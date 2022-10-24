@@ -5,7 +5,8 @@ const authorization = require('../middleware/authorization');
 
 router.post('/users/register', UserController.userRegister);
 router.post('/users/login', UserController.userLogin);
-router.get('/users/:userId', authentication, authorization, UserController.userUpdateById);
+router.put('/users/:userId', authentication, authorization, UserController.userUpdateById);
+router.delete('/users/:userId', authentication, authorization, UserController.deleteUserById);
 
 
 

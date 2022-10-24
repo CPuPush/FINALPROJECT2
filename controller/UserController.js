@@ -1,6 +1,7 @@
 const { User } = require("../models");
 const { hashPassword, comparePassword } = require("../helper/bcrypt");
 const { generateToken } = require("../helper/jwt");
+const { json } = require("sequelize");
 
 class UserController {
   static async userRegister(req, res) {
@@ -35,7 +36,7 @@ class UserController {
         phone_number,
       });
     } catch (error) {
-      return res.status(500).json({ message: error["errors"][0]["message"] });
+      return res.status(500).json(error);
     }
   }
 
@@ -69,14 +70,52 @@ class UserController {
 
   static async userUpdateById(req, res) {
     try {
-      const {userId} = req.params;
-      const userById = await User.findOne({
+      const { userId } = req.params;
+      const {
+        email,
+        full_name,
+        username,
+        profile_image_url,
+        age,
+        phone_number,
+      } = req.body;
+      const data = {
+        email,
+        full_name,
+        username,
+        profile_image_url,
+        age,
+        phone_number,
+      };
+      await User.update(data, {
         where: {
-          id: userId,
+          id: +userId,
         },
       });
 
-      return res.json({userById});
+      return res.status(200).json({
+        email,
+        full_name,
+        username,
+        profile_image_url,
+        age,
+        phone_number,
+      });
+    } catch (error) {
+      return res.status(500).json(error);
+    }
+  }
+
+  static async deleteUserById(req, res) {
+    try {
+      const {userId} = req.params;
+      await User.destroy({
+        where: {
+          id: userId
+        }
+      })
+
+      return res.status(200).json({message: "Your account has been successfully deleted"})
     } catch (error) {
       return res.status(500).json(error);
     }
