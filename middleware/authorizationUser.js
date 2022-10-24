@@ -1,5 +1,5 @@
 const { User } = require("../models");
-async function authorization(req, res, next) {
+async function authorizationUser(req, res, next) {
   try {
     const { userId } = req.params;
     const authenticationUserId = res.dataUser.id;
@@ -27,4 +27,4 @@ async function authorization(req, res, next) {
     return res.status(500).json(error);
   }
 }
-module.exports = authorization;
+module.exports = authorizationUser;

@@ -1,7 +1,6 @@
 const { User } = require("../models");
 const { hashPassword, comparePassword } = require("../helper/bcrypt");
 const { generateToken } = require("../helper/jwt");
-const { json } = require("sequelize");
 
 class UserController {
   static async userRegister(req, res) {
