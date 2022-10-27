@@ -107,14 +107,16 @@ class UserController {
 
   static async deleteUserById(req, res) {
     try {
-      const {userId} = req.params;
+      const { userId } = req.params;
       await User.destroy({
         where: {
-          id: userId
-        }
-      })
+          id: userId,
+        },
+      });
 
-      return res.status(200).json({message: "Your account has been successfully deleted"})
+      return res
+        .status(200)
+        .json({ message: "Your account has been successfully deleted" });
     } catch (error) {
       return res.status(500).json(error);
     }
