@@ -3,6 +3,7 @@ const UserController = require("../controller/UserController");
 const PhotoControllers = require("../controller/PhotoControllers");
 const authentication = require("../middleware/authentication");
 const authorizationUser = require("../middleware/authorizationUser");
+const authorizationPhoto = require("../middleware/authorizationPhoto");
 
 // ! USERS
 router.post("/users/register", UserController.userRegister);
@@ -26,13 +27,13 @@ router.get("/photos", authentication, PhotoControllers.getAllPhotos);
 router.put(
   "/photos/:photoId",
   authentication,
-  // authorizationUser,
+  authorizationPhoto,
   PhotoControllers.photoUpdateById
 );
 router.delete(
   "/photos/:photoId",
   authentication,
-  // authorizationUser,
+  authorizationUser,
   PhotoControllers.deletePhotoById
 );
 module.exports = router;
