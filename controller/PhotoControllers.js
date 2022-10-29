@@ -11,7 +11,7 @@ class PhotoControllers {
       UserId,
     };
 
-    await Photo.create({
+    return await Photo.create({
       poster_image_url,
       title,
       caption,
@@ -23,25 +23,27 @@ class PhotoControllers {
       .then((error) => {
         res.status(500).json(error);
       });
-
-    return res.status(201).json(data);
   }
 
   static async getAllPhotos(req, res) {
-    const data = {
-      include: {
-        model: User,
-        attributes: [`id`, `username`, `profile_image_url`],
-      },
-    };
+    try {
+      const data = {
+        include: {
+          model: User,
+          attributes: [`id`, `username`, `profile_image_url`],
+        },
+      };
 
-    Photo.findAll(data)
-      .then((result) => {
-        res.status(200).json(result);
-      })
-      .then((err) => {
-        res.status(500).json(err);
-      });
+      Photo.findAll(data)
+        .then((result) => {
+          res.status(200).json(result);
+        })
+        .then((err) => {
+          res.status(500).json(err);
+        });
+    } catch (error) {
+      res.status(500).json(error);
+    }
   }
 
   static async photoUpdateById(req, res) {
