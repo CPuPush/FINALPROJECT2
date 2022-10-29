@@ -33,7 +33,7 @@ router.put(
 router.delete(
   "/photos/:photoId",
   authentication,
-  authorizationUser,
+  authorizationPhoto,
   PhotoControllers.deletePhotoById
 );
 module.exports = router;
