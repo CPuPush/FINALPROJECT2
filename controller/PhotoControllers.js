@@ -28,7 +28,6 @@ class PhotoControllers {
           UserId
         },
       });
-      console.log(UserId);
       return res.status(200).json(test)
     } catch (error) {
       res.status(500).json(error);
@@ -51,13 +50,12 @@ class PhotoControllers {
         },
       });
 
-      return Photo.findOne({
+      const photoUpdate = await Photo.findOne({
         where: {
           id: +photoId,
         },
-      }).then((data) => {
-        res.status(200).json(data);
       });
+      return res.status(200).json({photo:photoUpdate})
     } catch (error) {
       res.status(500).json(error);
     }
@@ -72,9 +70,7 @@ class PhotoControllers {
         },
       });
 
-      return res
-        .status(200)
-        .json({ message: "Your photo has been successfully deleted" });
+      return res.status(200).json({ message: "Your photo has been successfully deleted" });
     } catch (error) {
       return res.status(500).json(error);
     }
