@@ -4,9 +4,6 @@ async function authorizationUser(req, res, next) {
     const { userId } = req.params;
     const authenticationUserId = res.dataUser.id;
 
-    console.log(userId, authenticationUserId);
-    console.log(typeof(userId));
-    console.log(typeof(authenticationUserId));
     const userById = await User.findOne({
       where:{
         id: +userId

@@ -51,9 +51,9 @@ module.exports = (sequelize, DataTypes) => {
 
     },
     phone_number: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
       validate: {
-        isInt: {
+        isNumeric: {
           args: true,
           msg: "Please enter valid phone number"
         }

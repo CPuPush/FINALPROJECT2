@@ -9,13 +9,11 @@ async function authentication(req, res, next) {
     const userById = await User.findOne({
       where: {
         id: userDecoded.id,
-        email: userDecoded.email
       }
     });
-
     if(!userById){
       return res.status(401).json({
-        message: "User Not Found"
+        message: "No active account found with the given credentials"
       });
     }
     res.dataUser = userById;

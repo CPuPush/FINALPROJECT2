@@ -1,46 +1,35 @@
-const { Photo, User } = require("../models");
+const { Photo, User, Comment } = require("../models");
 
 class PhotoControllers {
-  static async createPhoto(req, res) {
-    const { title, caption, poster_image_url } = req.body;
-    const UserId = res.dataUser.id;
-    const data = {
-      poster_image_url,
-      title,
-      caption,
-      UserId,
-    };
 
-    return await Photo.create({
-      poster_image_url,
-      title,
-      caption,
-      UserId,
-    })
-      .then((result) => {
-        res.status(201).json(result);
+  static async createPhoto(req, res) {
+    try {
+      const { title, caption, poster_image_url } = req.body;
+      const UserId = res.dataUser.id;
+      await Photo.create({
+        title, caption, poster_image_url, UserId
       })
-      .then((error) => {
-        res.status(500).json(error);
-      });
+      return res.status(201).json({title, caption, poster_image_url});
+      
+    } catch (error) {
+      return res.status(500).json(error);
+    }
   }
 
   static async getAllPhotos(req, res) {
     try {
-      const data = {
+      const UserId = res.dataUser.id;
+      let test = await Photo.findAll({
         include: {
           model: User,
           attributes: [`id`, `username`, `profile_image_url`],
         },
-      };
-
-      Photo.findAll(data)
-        .then((result) => {
-          res.status(200).json(result);
-        })
-        .then((err) => {
-          res.status(500).json(err);
-        });
+        where: {
+          UserId
+        },
+      });
+      console.log(UserId);
+      return res.status(200).json(test)
     } catch (error) {
       res.status(500).json(error);
     }
