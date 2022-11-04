@@ -2,10 +2,12 @@ const router = require("express").Router();
 const UserController = require("../controller/UserController");
 const PhotoControllers = require("../controller/PhotoControllers");
 const CommentControllers = require("../controller/CommentControllers");
+const SocialMediaControllers = require("../controller/SocialMediaControllers");
 const authentication = require("../middleware/authentication");
 const authorizationUser = require("../middleware/authorizationUser");
 const authorizationPhoto = require("../middleware/authorizationPhoto");
 const authorizationComment = require("../middleware/authorizationComment");
+const authorizationSocmed = require("../middleware/authorizationSocmed");
 
 // ! USERS
 router.post("/users/register", UserController.userRegister);
@@ -54,4 +56,29 @@ router.delete(
   authorizationComment,
   CommentControllers.deleteCommentById
 );
+
+// ! SOCIAL MEDIA
+router.post(
+  "/socialmedias",
+  authentication,
+  SocialMediaControllers.createSocmed
+);
+router.get(
+  "/socialmedias",
+  authentication,
+  SocialMediaControllers.getAllSocmed
+);
+router.put(
+  "/socialmedias/:socialMediaId",
+  authentication,
+  authorizationSocmed,
+  SocialMediaControllers.socmedUpdateById
+);
+router.delete(
+  "/socialmedias/:socialMediaId",
+  authentication,
+  authorizationSocmed,
+  SocialMediaControllers.deleteSocmedById
+);
+
 module.exports = router;
