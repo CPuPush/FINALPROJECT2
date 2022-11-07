@@ -2,25 +2,24 @@ const { Comment, User, Photo } = require("../models");
 
 class CommentControllers {
   static async createComment(req, res) {
-    const { comment, PhotoId } = req.body;
-    const UserId = res.dataUser.id;
-    const data = {
-      comment,
-      UserId,
-      PhotoId,
-    };
-
-    return await Comment.create({
-      comment,
-      UserId,
-      PhotoId,
-    })
-      .then((result) => {
-        return res.status(201).json(result);
-      })
-      .then((err) => {
-        return res.status(500).json(err);
-      });
+    try {
+      const { comment, PhotoId } = req.body;
+      const UserId = res.dataUser.id;
+      const data = {
+        UserId,
+        PhotoId,
+        comment
+      };
+      const getPhoto = await Photo.findByPk(PhotoId);
+      if(!getPhoto){
+        return res.status(404).json({message: "PhotoId not found"})
+      }else{
+        const createComment = await Comment.create(data);
+        return res.status(201).json({comment: createComment});
+      }
+    } catch (error) {
+      return res.status(500).json(error);
+    }
   }
 
   static async getAllComments(req, res) {
@@ -37,16 +36,10 @@ class CommentControllers {
           },
         ],
       };
-
-      Comment.findAll(data)
-        .then((result) => {
-          res.status(200).json(result);
-        })
-        .then((err) => {
-          res.status(500).json(err);
-        });
+      const findComment = await Comment.findAll(data);
+      return res.status(200).json({comments: findComment});
     } catch (error) {
-      res.status(500).json(error);
+      return res.status(500).json(error);
     }
   }
 
@@ -57,22 +50,15 @@ class CommentControllers {
       const data = {
         comment,
       };
-
       await Comment.update(data, {
         where: {
           id: +commentId,
         },
       });
-
-      return Comment.findOne({
-        where: {
-          id: +commentId,
-        },
-      }).then((result) => {
-        res.status(200).json(result);
-      });
+      const commentUpdate = await Comment.findByPk(commentId);
+      return res.status(200).json({comment: commentUpdate})
     } catch (error) {
-      res.status(500).json(error);
+      return res.status(500).json(error);
     }
   }
 
@@ -84,10 +70,7 @@ class CommentControllers {
           id: commentId,
         },
       });
-
-      return res
-        .status(200)
-        .json({ message: "Your comment has been successfully deleted" });
+      return res.status(200).json({ message: "Your comment has been successfully deleted" });
     } catch (error) {
       return res.status(500).json(error);
     }

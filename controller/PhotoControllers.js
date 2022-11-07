@@ -1,4 +1,4 @@
-const { Photo, User, Comment } = require("../models");
+const { Photo, User } = require("../models");
 
 class PhotoControllers {
 

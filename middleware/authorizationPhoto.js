@@ -1,4 +1,5 @@
 const { Photo } = require("../models");
+
 async function authorizationPhoto(req, res, next) {
   try {
     const { photoId } = req.params;

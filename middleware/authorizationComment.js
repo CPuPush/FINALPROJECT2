@@ -3,7 +3,6 @@ async function authorizationComment(req, res, next) {
   try {
     const { commentId } = req.params;
     const authenticationUserId = res.dataUser.id;
-    console.log(typeof authenticationUserId);
     const commentById = await Comment.findOne({
       where: {
         id: +commentId,
@@ -14,10 +13,10 @@ async function authorizationComment(req, res, next) {
       return res.status(404).json({ message: "Comment not found" });
     }
 
-    if (!authenticationUserId) {
-      return res.status(404).json({ message: "FORBIDDEN" });
-    } else {
+    if (authenticationUserId === commentById.UserId) {
       return next();
+    } else {
+      return res.status(404).json({ message: "FORBIDDEN" });
     }
   } catch (error) {
     return res.status(500).json(error);
