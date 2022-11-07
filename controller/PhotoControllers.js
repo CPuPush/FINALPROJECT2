@@ -1,4 +1,4 @@
-const { Photo, User } = require("../models");
+const { Photo, User, Comment } = require("../models");
 
 class PhotoControllers {
 
@@ -20,10 +20,20 @@ class PhotoControllers {
     try {
       const UserId = res.dataUser.id;
       let test = await Photo.findAll({
-        include: {
+        include: [
+        {
           model: User,
           attributes: [`id`, `username`, `profile_image_url`],
         },
+        {
+          model: Comment,
+          attributes: [`comment`],
+          include:{
+            model: User,
+            attributes:[`username`]
+          }
+        }
+      ],
         where: {
           UserId
         },

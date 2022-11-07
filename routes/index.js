@@ -16,7 +16,7 @@ router.put("/users/:userId", authentication, authorizationUser, UserController.u
 router.delete("/users/:userId", authentication, authorizationUser, UserController.deleteUserById);//clear
 
 // ! PHOTO
-router.post("/photos", authentication, PhotoControllers.createPhoto);//kurang comment
+router.post("/photos", authentication, PhotoControllers.createPhoto);//clear
 router.get("/photos", authentication, PhotoControllers.getAllPhotos);//clear
 router.put("/photos/:photoId", authentication, authorizationPhoto, PhotoControllers.photoUpdateById);//clear
 router.delete("/photos/:photoId", authentication, authorizationPhoto,PhotoControllers.deletePhotoById);//clear
