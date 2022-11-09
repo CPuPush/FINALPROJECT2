@@ -14,6 +14,10 @@ class SocialController{
       return res.status(201).json({ social_media:createSocialMedia });
 
     } catch (error) {
+      let errorMes = error.name;
+      if(errorMes === "SequelizeUniqueConstraintError" || errorMes==="SequelizeValidationError"){
+        return res.status(400).json({message: error.errors[0].message});
+      }
       return res.status(500).json(error);
     }
   }
@@ -56,6 +60,10 @@ class SocialController{
       });
       return res.status(200).json({message: updateSocialMedia});
     } catch (error) {
+      let errorMes = error.name;
+      if(errorMes === "SequelizeUniqueConstraintError" || errorMes==="SequelizeValidationError"){
+        return res.status(400).json({message: error.errors[0].message});
+      }
       return res.status(500).json(error);
     }
   }

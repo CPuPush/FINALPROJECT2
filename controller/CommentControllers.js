@@ -18,6 +18,10 @@ class CommentControllers {
         return res.status(201).json({comment: createComment});
       }
     } catch (error) {
+      let errorMes = error.name;
+      if(errorMes === "SequelizeUniqueConstraintError" || errorMes==="SequelizeValidationError"){
+        return res.status(400).json({message: error.errors[0].message});
+      }
       return res.status(500).json(error);
     }
   }
@@ -58,6 +62,10 @@ class CommentControllers {
       const commentUpdate = await Comment.findByPk(commentId);
       return res.status(200).json({comment: commentUpdate})
     } catch (error) {
+      let errorMes = error.name;
+      if(errorMes === "SequelizeUniqueConstraintError" || errorMes==="SequelizeValidationError"){
+        return res.status(400).json({message: error.errors[0].message});
+      }
       return res.status(500).json(error);
     }
   }

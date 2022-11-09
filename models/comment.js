@@ -20,7 +20,12 @@ module.exports = (sequelize, DataTypes) => {
     PhotoId: DataTypes.INTEGER,
     comment: {
       type: DataTypes.TEXT,
-      allowNull: false
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "comment cannot be empty"
+        },
+      }
     }
   }, {
     sequelize,

@@ -14,16 +14,18 @@ class UserController {
         age,
         phone_number,
       } = req.body;
+      if(!password){
+        return res.status(400).json({message: "password cannot be empty"})
+      }
       const hashedPassword = hashPassword(password);
-
       await User.create({
         full_name,
         email,
         username,
         password: hashedPassword,
         profile_image_url,
-        age: +age,
-        phone_number: +phone_number,
+        age: age,
+        phone_number: phone_number,
       });
 
       return res.status(201).json({
@@ -35,6 +37,10 @@ class UserController {
         phone_number,
       });
     } catch (error) {
+      let errorMes = error.name;
+      if(errorMes === "SequelizeUniqueConstraintError" || errorMes==="SequelizeValidationError"){
+        return res.status(400).json({message: error.errors[0].message});
+      }
       return res.status(500).json(error);
     }
   }
@@ -63,6 +69,10 @@ class UserController {
         }
       }
     } catch (error) {
+      let errorMes = error.name;
+      if(errorMes === "SequelizeUniqueConstraintError" || errorMes==="SequelizeValidationError"){
+        return res.status(400).json({message: error.errors[0].message});
+      }
       return res.status(500).json(error);
     }
   }
@@ -101,6 +111,10 @@ class UserController {
         phone_number,
       });
     } catch (error) {
+      let errorMes = error.name;
+      if(errorMes === "SequelizeUniqueConstraintError" || errorMes==="SequelizeValidationError"){
+        return res.status(400).json({message: error.errors[0].message});
+      }
       return res.status(500).json(error);
     }
   }
@@ -113,7 +127,6 @@ class UserController {
           id: userId,
         },
       });
-
       return res
         .status(200)
         .json({ message: "Your account has been successfully deleted" });

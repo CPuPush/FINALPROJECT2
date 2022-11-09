@@ -12,6 +12,10 @@ class PhotoControllers {
       return res.status(201).json({title, caption, poster_image_url});
       
     } catch (error) {
+      let errorMes = error.name;
+      if(errorMes === "SequelizeUniqueConstraintError" || errorMes==="SequelizeValidationError"){
+        return res.status(400).json({message: error.errors[0].message});
+      }
       return res.status(500).json(error);
     }
   }
@@ -67,7 +71,11 @@ class PhotoControllers {
       });
       return res.status(200).json({photo:photoUpdate})
     } catch (error) {
-      res.status(500).json(error);
+      let errorMes = error.name;
+      if(errorMes === "SequelizeUniqueConstraintError" || errorMes==="SequelizeValidationError"){
+        return res.status(400).json({message: error.errors[0].message});
+      }
+      return res.status(500).json(error);
     }
   }
 

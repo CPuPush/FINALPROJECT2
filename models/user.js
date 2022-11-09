@@ -20,39 +20,77 @@ module.exports = (sequelize, DataTypes) => {
   User.init({
     full_name: {
       type: DataTypes.STRING,
+      validate: {
+        notEmpty:{
+          args: true,
+          msg: "full_name cannot be empty"
+        }
+      }
     },
     email: {
       type: DataTypes.STRING,
       validate:{
-        notEmpty: true,
-        isEmail: true
+        notEmpty: {
+          args: true,
+          msg: "email cannot be empty"
+        },
+        isEmail: {
+          args: true,
+          msg: "Please enter valid email format"
+        }
       }
     },
     username: {
       type: DataTypes.STRING,
+      validate:{
+        notEmpty: {
+          args: true,
+          msg: "username cannot be empty"
+        },
+      }
     },
     password: {
       type: DataTypes.STRING,
+      validate:{
+        notEmpty: {
+          args: true,
+          msg: "password cannot be empty"
+        },
+      }
     },
     profile_image_url: {
       type: DataTypes.STRING,
       validate: {
-        isUrl: true
+        notEmpty: {
+          args: true,
+          msg: "profile_image_url cannot be empty"
+        },
+        isUrl:{
+          args: true,
+          msg: "please enter valid url format"
+        }
       },
     },
     age: {
       type: DataTypes.INTEGER,
       validate: {
-        isInt:{
+        notEmpty: {
           args: true,
-          mgs: "Please enter valid age"
+          msg: "age cannot be empty",
+        },
+        isInt: {
+          args: true,
+          msg: "Please enter valid age"
         }
       }
-
     },
     phone_number: {
       type: DataTypes.BIGINT,
       validate: {
+        notEmpty: {
+          args: true,
+          msg: "phone_number cannot be empty",
+        },
         isNumeric: {
           args: true,
           msg: "Please enter valid phone number"
